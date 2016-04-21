@@ -3,7 +3,7 @@
 
   <label class="hide-completed">
     <input type="checkbox" ng-model="$ctrl.hideCompleted"/>
-    Hide Completed Tasks
+    Hide {{$ctrl.completedCount}} Completed Tasks
   </label>
 
   <form class="new-task" ng-submit="$ctrl.addTask($ctrl.newTask)">

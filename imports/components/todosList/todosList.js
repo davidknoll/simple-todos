@@ -34,6 +34,11 @@ class TodosListCtrl {
             $ne: true
           }
         }).count();
+      },
+      completedCount() {
+        return Tasks.find({
+          checked: true
+        }).count();
       }
     })
   }
