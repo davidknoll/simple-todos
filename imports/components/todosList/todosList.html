@@ -12,8 +12,16 @@
     <button class="delete" ng-click="$ctrl.removeTask(task)">&times;</button>
 
     <input type="checkbox" ng-checked="task.checked" ng-click="$ctrl.setChecked(task)" class="toggle-checked"/>
+    <select ng-model="task.colour" ng-change="$ctrl.setColour(task)">
+      <option value="">None</option>
+      <option value="red">Red</option>
+      <option value="green">Green</option>
+      <option value="blue">Blue</option>
+      <option value="yellow">Yellow</option>
+      <option value="#eb008b">FF Pink</option>
+    </select>
 
-    <span class="text">
+    <span class="text" style="color: {{task.colour}};">
       {{task.text}}
     </span>
   </li>

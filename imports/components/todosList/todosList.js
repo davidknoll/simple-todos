@@ -40,6 +40,14 @@ class TodosListCtrl {
     });
   }
 
+  setColour(task) {
+    Tasks.update(task._id, {
+      $set: {
+        colour: task.colour
+      },
+    });
+  }
+
   removeTask(task) {
     Tasks.remove(task._id);
   }
