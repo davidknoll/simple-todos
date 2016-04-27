@@ -61,11 +61,7 @@ class TodosListCtrl {
   }
 
   setColour(task) {
-    Tasks.update(task._id, {
-      $set: {
-        colour: task.colour
-      },
-    });
+    Meteor.call('tasks.setColour', task._id, task.colour);
   }
 
   removeTask(task) {

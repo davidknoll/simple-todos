@@ -35,4 +35,14 @@ Meteor.methods({
       }
     });
   },
+  'tasks.setColour' (taskId, setColour) {
+    check(taskId, String);
+    check(setColour, String);
+
+    Tasks.update(taskId, {
+      $set: {
+        colour: setColour
+      }
+    });
+  },
 });
