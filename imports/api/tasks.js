@@ -6,8 +6,18 @@ export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
   // This code only runs on the server
+  // Only publish tasks that are public or belong to the current user
   Meteor.publish('tasks', function tasksPublication() {
-    return Tasks.find();
+    // Like: SELECT * FROM Tasks WHERE private IS NOT TRUE OR owner = @userId
+    return Tasks.find({
+      $or: [{
+        private: {
+          $ne: true
+        }
+      }, {
+        owner: this.userId
+      }, ],
+    });
   });
 }
 
@@ -46,9 +56,27 @@ Meteor.methods({
     check(taskId, String);
     check(setColour, String);
 
+    // Like: UPDATE Tasks SET colour = @setColour WHERE _id = @taskId
     Tasks.update(taskId, {
       $set: {
         colour: setColour
+      }
+    });
+  },
+  'tasks.setPrivate' (taskId, setToPrivate) {
+    check(taskId, String);
+    check(setToPrivate, Boolean);
+ 
+    const task = Tasks.findOne(taskId);
+ 
+    // Make sure only the task owner can make a task private
+    if (task.owner !== Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+ 
+    Tasks.update(taskId, {
+      $set: {
+        private: setToPrivate
       }
     });
   },
